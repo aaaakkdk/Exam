@@ -13,14 +13,12 @@ public class SubjectListAction extends Action {
     public void execute(HttpServletRequest req, HttpServletResponse res) {
 
         try {
-            // DAO
+
             SubjectDAO dao = new SubjectDAO();
             List<Subject> list = dao.findAll();
 
-            // データ渡す
             req.setAttribute("subjects", list);
 
-            // JSPへ遷移
             req.getRequestDispatcher("/scoremanager/main/subjectList.jsp")
                .forward(req, res);
 

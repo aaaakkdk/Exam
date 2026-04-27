@@ -17,19 +17,25 @@ public class SubjectDAO {
 
         try {
             Connection conn = DriverManager.getConnection(
-                "jdbc:h2:~/test", "sa", ""
+                "jdbc:h2:~/exam", "sa", ""
             );
 
-            String sql = "SELECT * FROM SUBJECT";
+            // ★ SCHOOL_CDで絞る
+            String sql = "SELECT * FROM SUBJECT WHERE SCHOOL_CD = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, "S1");
+
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 list.add(new Subject(
-                    rs.getInt("ID"),
+                    rs.getString("SCHOOL_CD"),
+                    rs.getInt("CD"),
                     rs.getString("NAME")
                 ));
             }
+
+            System.out.println(list); // 確認用
 
         } catch (Exception e) {
             e.printStackTrace();
