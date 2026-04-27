@@ -17,7 +17,7 @@ public class SubjectDAO {
 
         try {
             Connection conn = DriverManager.getConnection(
-                "jdbc:h2:~/exam", "sa", ""
+                "jdbc:h2:tcp://localhost/~/exam", "sa", ""
             );
 
             // ★ SCHOOL_CDで絞る
