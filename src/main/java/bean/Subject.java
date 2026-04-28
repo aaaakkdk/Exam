@@ -1,27 +1,26 @@
 package bean;
- 
+
 public class Subject {
- 
+
     private String schoolCd;
-    private int cd;
+    private String cd;
     private String name;
- 
-    public Subject(String schoolCd, int cd, String name) {
+
+    public Subject(String schoolCd, String cd, String name) {
         this.schoolCd = schoolCd;
         this.cd = cd;
         this.name = name;
     }
- 
+
     public String getSchoolCd() {
         return schoolCd;
     }
- 
-    public int getCd() {
+
+    public String getCd() {
         return cd;
     }
- 
+
     public String getName() {
         return name;
     }
 }
- 

@@ -25,6 +25,11 @@
 				</c:if>
 
 				<div class="mb-3">
+					<label class="form-label">学校コード</label>
+					<input type="text" name="schoolCd" class="form-control" value="${schoolCd}" required>
+				</div>
+
+				<div class="mb-3">
 					<label class="form-label">科目コード</label>
 					<input type="text" name="cd" class="form-control" value="${cd}" required>
 				</div>

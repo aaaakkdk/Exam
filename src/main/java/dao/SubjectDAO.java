@@ -1,5 +1,5 @@
 package dao;
- 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,39 +8,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.Subject;
- 
+
 public class SubjectDAO {
- 
-    public List<Subject> findAll() {
- 
-        List<Subject> list = new ArrayList<>();
- 
-        try {
-            Connection conn = DriverManager.getConnection(
-                "jdbc:h2:tcp://localhost/~/exam", "sa", ""
-            );
- 
-            // ★ SCHOOL_CDで絞る
-            String sql = "SELECT * FROM SUBJECT WHERE SCHOOL_CD = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, "S1");
- 
-            ResultSet rs = ps.executeQuery();
- 
-            while (rs.next()) {
-                list.add(new Subject(
-                    rs.getString("SCHOOL_CD"),
-                    rs.getInt("CD"),
-                    rs.getString("NAME")
-                ));
-            }
- 
-            System.out.println(list); // 確認用
- 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
- 
-        return list;
-    }
+
+    // 科目一覧取得（全部表示）
+	public List<Subject> findAll() {
+
+	    List<Subject> list = new ArrayList<>();
+
+	    try {
+	        Connection conn = DriverManager.getConnection(
+	            "jdbc:h2:tcp://localhost/~/exam", "sa", ""
+	        );
+
+	        String sql = "SELECT * FROM SUBJECT";
+	        PreparedStatement ps = conn.prepareStatement(sql);
+
+	        ResultSet rs = ps.executeQuery();
+
+	        while (rs.next()) {
+	            list.add(new Subject(
+	                rs.getString("SCHOOL_CD"),
+	                rs.getString("CD"),
+	                rs.getString("NAME")
+	            ));
+	        }
+
+	        rs.close();
+	        ps.close();
+	        conn.close();
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return list;
+	}
 }
