@@ -20,10 +20,12 @@ public class SubjectCreateExecuteAction extends Action {
 		String cd = req.getParameter("cd");
 		String name = req.getParameter("name");
 
+		// 入力値保持
 		req.setAttribute("schoolCd", schoolCd);
 		req.setAttribute("cd", cd);
 		req.setAttribute("name", name);
 
+		// 未入力チェック
 		if (schoolCd == null || schoolCd.isEmpty()
 				|| cd == null || cd.isEmpty()
 				|| name == null || name.isEmpty()) {
@@ -34,18 +36,27 @@ public class SubjectCreateExecuteAction extends Action {
 			return;
 		}
 
+		// 3文字チェック
+		if (cd.length() != 3) {
+			req.setAttribute("error", "科目コードは3文字で入力してください。");
+			req.getRequestDispatcher("/scoremanager/main/subjectCreate.jsp")
+				.forward(req, res);
+			return;
+		}
+
+		// ★ 重複チェック（ここが重要）
 		try (
 			Connection con = DriverManager.getConnection(
 				"jdbc:h2:tcp://localhost/~/exam", "sa", ""
 			);
-			PreparedStatement checkPs = con.prepareStatement(
+			PreparedStatement ps = con.prepareStatement(
 				"SELECT * FROM SUBJECT WHERE SCHOOL_CD = ? AND CD = ?"
 			)
 		) {
-			checkPs.setString(1, schoolCd);
-			checkPs.setString(2, cd);
+			ps.setString(1, schoolCd);
+			ps.setString(2, cd);
 
-			ResultSet rs = checkPs.executeQuery();
+			ResultSet rs = ps.executeQuery();
 
 			if (rs.next()) {
 				req.setAttribute("error", "科目コードが重複しています。");
@@ -57,6 +68,7 @@ public class SubjectCreateExecuteAction extends Action {
 			rs.close();
 		}
 
+		// 登録
 		Subject subject = new Subject(schoolCd, cd, name);
 
 		try (
@@ -74,6 +86,7 @@ public class SubjectCreateExecuteAction extends Action {
 			ps.executeUpdate();
 		}
 
+		// 一覧へ
 		res.sendRedirect("SubjectList.action");
 	}
 }

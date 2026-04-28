@@ -11,37 +11,36 @@ import bean.Subject;
 
 public class SubjectDAO {
 
-    // 科目一覧取得（全部表示）
-	public List<Subject> findAll() {
+    public List<Subject> findAll() {
 
-	    List<Subject> list = new ArrayList<>();
+        List<Subject> list = new ArrayList<>();
 
-	    try {
-	        Connection conn = DriverManager.getConnection(
-	            "jdbc:h2:tcp://localhost/~/exam", "sa", ""
-	        );
+        try {
+            Connection conn = DriverManager.getConnection(
+                "jdbc:h2:tcp://localhost/~/exam", "sa", ""
+            );
 
-	        String sql = "SELECT * FROM SUBJECT";
-	        PreparedStatement ps = conn.prepareStatement(sql);
+            String sql = "SELECT * FROM SUBJECT";
+            PreparedStatement ps = conn.prepareStatement(sql);
 
-	        ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
 
-	        while (rs.next()) {
-	            list.add(new Subject(
-	                rs.getString("SCHOOL_CD"),
-	                rs.getString("CD"),
-	                rs.getString("NAME")
-	            ));
-	        }
+            while (rs.next()) {
+                list.add(new Subject(
+                    rs.getString("SCHOOL_CD"),
+                    rs.getString("CD"),   // ← ここが重要
+                    rs.getString("NAME")
+                ));
+            }
 
-	        rs.close();
-	        ps.close();
-	        conn.close();
+            rs.close();
+            ps.close();
+            conn.close();
 
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-	    return list;
-	}
+        return list;
+    }
 }
