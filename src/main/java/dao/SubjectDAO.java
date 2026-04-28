@@ -20,22 +20,22 @@ public class SubjectDAO {
                 "jdbc:h2:tcp://localhost/~/exam", "sa", ""
             );
 
-            // ★ SCHOOL_CDで絞る
-            String sql = "SELECT * FROM SUBJECT WHERE SCHOOL_CD = ?";
+            String sql = "SELECT * FROM SUBJECT";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, "S1");
 
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 list.add(new Subject(
                     rs.getString("SCHOOL_CD"),
-                    rs.getInt("CD"),
+                    rs.getString("CD"),   // ← ここが重要
                     rs.getString("NAME")
                 ));
             }
 
-            System.out.println(list); // 確認用
+            rs.close();
+            ps.close();
+            conn.close();
 
         } catch (Exception e) {
             e.printStackTrace();
