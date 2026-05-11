@@ -5,7 +5,7 @@
 <%@ taglib prefix="c"
 	uri="jakarta.tags.core" %>
 
-<!DOCTYPE html>!
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -29,19 +29,24 @@ body{
 }
 
 .title{
-	font-size:42px;
+	font-size:40px;
 	font-weight:bold;
-	margin-bottom:25px;
+	margin-bottom:30px;
 }
 
 .search-box{
 	background:white;
-	padding:25px;
+	border:1px solid #ccc;
 	border-radius:8px;
-	border:1px solid #ddd;
+	padding:25px;
+	margin-bottom:30px;
+}
+
+.search-form{
 	display:flex;
 	align-items:flex-end;
-	gap:30px;
+	gap:25px;
+	flex-wrap:wrap;
 }
 
 .form-group{
@@ -50,65 +55,82 @@ body{
 }
 
 label{
-	font-weight:bold;
-	margin-bottom:10px;
 	font-size:18px;
+	font-weight:bold;
+	margin-bottom:8px;
 }
 
 select{
 	width:180px;
-	height:45px;
-	border:1px solid #ccc;
-	border-radius:6px;
+	height:42px;
 	font-size:18px;
+	border:1px solid #aaa;
+	border-radius:5px;
 	padding-left:10px;
 	background:white;
 }
 
 .search-btn{
-	height:45px;
+	height:42px;
 	width:90px;
 	background:#666;
 	color:white;
 	border:none;
-	border-radius:6px;
+	border-radius:5px;
 	font-size:18px;
 	cursor:pointer;
 }
 
+.menu-btn{
+	height:42px;
+	background:#999;
+	color:white;
+	border:none;
+	border-radius:5px;
+	font-size:18px;
+	padding:0 20px;
+	cursor:pointer;
+}
+
+.error{
+	color:red;
+	font-size:18px;
+	font-weight:bold;
+	margin-bottom:20px;
+}
+
 .subject-title{
-	margin-top:35px;
 	font-size:28px;
 	font-weight:bold;
+	margin-bottom:20px;
 }
 
 table{
 	width:100%;
 	border-collapse:collapse;
-	margin-top:20px;
 	background:white;
 }
 
 th{
 	border-bottom:2px solid #ccc;
-	padding:18px;
-	font-size:22px;
+	padding:15px;
+	font-size:20px;
 	text-align:left;
 }
 
 td{
 	border-bottom:1px solid #ddd;
-	padding:18px;
-	font-size:22px;
+	padding:15px;
+	font-size:20px;
 }
 
 .score-input{
-	width:180px;
-	height:40px;
-	font-size:22px;
-	padding-left:10px;
+	width:140px;
+	height:38px;
+	font-size:20px;
 	border:1px solid #aaa;
 	border-radius:4px;
+	padding-left:10px;
 }
 
 .register-btn{
@@ -116,16 +138,22 @@ td{
 	background:#666;
 	color:white;
 	border:none;
-	padding:14px 30px;
+	padding:12px 28px;
 	font-size:20px;
-	border-radius:6px;
+	border-radius:5px;
 	cursor:pointer;
 }
 
-.error{
-	color:red;
+.bottom-menu-btn{
+	margin-top:25px;
+	margin-left:15px;
+	background:#999;
+	color:white;
+	border:none;
+	padding:12px 28px;
 	font-size:20px;
-	margin-top:20px;
+	border-radius:5px;
+	cursor:pointer;
 }
 
 </style>
@@ -142,12 +170,23 @@ td{
 
 </div>
 
+<!-- エラーメッセージ -->
+<c:if test="${not empty error}">
+
+	<div class="error">
+
+		${error}
+
+	</div>
+
+</c:if>
+
 <!-- 検索フォーム -->
 <div class="search-box">
 
 <form action="TestRegist.action"
 	method="post"
-	style="display:flex; gap:30px; align-items:flex-end;">
+	class="search-form">
 
 	<!-- 入学年度 -->
 	<div class="form-group">
@@ -166,17 +205,29 @@ td{
 
 			</option>
 
-			<option value="2020">2020</option>
+			<option value="2016">
 
-			<option value="2021">2021</option>
+				2016
 
-			<option value="2022">2022</option>
+			</option>
 
-			<option value="2023">2023</option>
+			<option value="2023">
 
-			<option value="2024">2024</option>
+				2023
 
-			<option value="2025">2025</option>
+			</option>
+
+			<option value="2024">
+
+				2024
+
+			</option>
+
+			<option value="2025">
+
+				2025
+
+			</option>
 
 		</select>
 
@@ -193,21 +244,33 @@ td{
 
 		<select name="classNum">
 
-			<option value="131">
+			<option value="">
 
-				131
+				---------
 
 			</option>
 
-			<option value="132">
+			<option value="101">
 
-				132
+				101
+
+			</option>
+
+			<option value="102">
+
+				102
 
 			</option>
 
 			<option value="201">
 
 				201
+
+			</option>
+
+			<option value="202">
+
+				202
 
 			</option>
 
@@ -224,24 +287,29 @@ td{
 
 		</label>
 
-		<select name="subjectCd"
-			style="width:320px;">
+		<select name="subjectCd">
 
-			<option value="Python1">
+			<option value="">
 
-				Python1
+				---------
 
 			</option>
 
-			<option value="Java">
+			<option value="JAVA">
 
-				Java
+				JAVA
 
 			</option>
 
 			<option value="DB">
 
 				DB
+
+			</option>
+
+			<option value="Python">
+
+				Python
 
 			</option>
 
@@ -259,6 +327,12 @@ td{
 		</label>
 
 		<select name="count">
+
+			<option value="">
+
+				---------
+
+			</option>
 
 			<option value="1">
 
@@ -282,6 +356,7 @@ td{
 
 	</div>
 
+	<!-- 検索 -->
 	<button type="submit"
 		class="search-btn">
 
@@ -289,27 +364,28 @@ td{
 
 	</button>
 
+	<!-- メニュー -->
+	<a href="<%=request.getContextPath()%>/scoremanager/main/menu.jsp">
+
+		<button type="button"
+			class="menu-btn">
+
+			メニュー
+
+		</button>
+
+	</a>
+
 </form>
 
 </div>
 
-<!-- エラー -->
-<c:if test="${not empty error}">
-
-	<div class="error">
-
-		${error}
-
-	</div>
-
-</c:if>
-
-<!-- 一覧 -->
+<!-- 学生一覧 -->
 <c:if test="${not empty scoreList}">
 
 <div class="subject-title">
 
-	科目：${subjectName}
+	科目：${subjectCd}
 	（${count}回）
 
 </div>
@@ -380,20 +456,23 @@ td{
 
 </table>
 
-<input type="hidden"
-	name="subjectCd"
-	value="${subjectCd}">
-
-<input type="hidden"
-	name="count"
-	value="${count}">
-
 <button type="submit"
 	class="register-btn">
 
 	登録して終了
 
 </button>
+
+<a href="<%=request.getContextPath()%>/scoremanager/main/menu.jsp">
+
+	<button type="button"
+		class="bottom-menu-btn">
+
+		メニューへ戻る
+
+	</button>
+
+</a>
 
 </form>
 
