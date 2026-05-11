@@ -1,11 +1,10 @@
 package scoremanager.main;
 
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
 import bean.Student;
 import dao.StudentDao;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
 public class StudentUpdateExecuteAction extends Action {

@@ -2,30 +2,38 @@ package bean;
 
 import java.io.Serializable;
 
-public class Teacher extends User implements Serializable {
+public class Teacher extends User
+	implements Serializable {
+
 	/**
-	 * 教員ID:String
+	 * 教員ID
 	 */
 	private String id;
 
 	/**
-	 * パスワード:String
+	 * パスワード
 	 */
 	private String password;
 
 	/**
-	 * 教員名:String
+	 * 教員名
 	 */
 	private String name;
 
 	/**
-	 * 所属校:School
+	 * 所属校
 	 */
 	private School school;
 
 	/**
-	 * ゲッター・セッター
+	 * 認証状態
 	 */
+	private boolean authenticated;
+
+	// ----------------
+	// getter setter
+	// ----------------
+
 	public String getId() {
 		return id;
 	}
@@ -56,5 +64,20 @@ public class Teacher extends User implements Serializable {
 
 	public void setSchool(School school) {
 		this.school = school;
+	}
+
+	// ----------------
+	// authenticated
+	// ----------------
+
+	public boolean isAuthenticated() {
+		return authenticated;
+	}
+
+	public void setAuthenticated(
+			boolean authenticated) {
+
+		this.authenticated =
+				authenticated;
 	}
 }
