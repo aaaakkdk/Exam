@@ -11,36 +11,70 @@ import bean.Subject;
 
 public class SubjectDAO {
 
-    public List<Subject> findAll() {
+	public List<Subject> findAll() {
+		return search(null, null, null);
+	}
 
-        List<Subject> list = new ArrayList<>();
+	public List<Subject> search(String schoolCd, String cd, String name) {
 
-        try {
-            Connection conn = DriverManager.getConnection(
-                "jdbc:h2:tcp://localhost/~/exam", "sa", ""
-            );
+		List<Subject> list = new ArrayList<>();
 
-            String sql = "SELECT * FROM SUBJECT";
-            PreparedStatement ps = conn.prepareStatement(sql);
+		try {
+			Connection conn = DriverManager.getConnection(
+				"jdbc:h2:tcp://localhost/~/exam", "sa", ""
+			);
 
-            ResultSet rs = ps.executeQuery();
+			String sql = "SELECT * FROM SUBJECT WHERE 1 = 1";
 
-            while (rs.next()) {
-                list.add(new Subject(
-                    rs.getString("SCHOOL_CD"),
-                    rs.getString("CD"),   // ← ここが重要
-                    rs.getString("NAME")
-                ));
-            }
+			if (schoolCd != null && !schoolCd.isEmpty()) {
+				sql += " AND SCHOOL_CD LIKE ?";
+			}
 
-            rs.close();
-            ps.close();
-            conn.close();
+			if (cd != null && !cd.isEmpty()) {
+				sql += " AND CD LIKE ?";
+			}
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+			if (name != null && !name.isEmpty()) {
+				sql += " AND NAME LIKE ?";
+			}
 
-        return list;
-    }
+			PreparedStatement ps = conn.prepareStatement(sql);
+
+			int index = 1;
+
+			if (schoolCd != null && !schoolCd.isEmpty()) {
+				ps.setString(index, "%" + schoolCd + "%");
+				index++;
+			}
+
+			if (cd != null && !cd.isEmpty()) {
+				ps.setString(index, "%" + cd + "%");
+				index++;
+			}
+
+			if (name != null && !name.isEmpty()) {
+				ps.setString(index, "%" + name + "%");
+				index++;
+			}
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				list.add(new Subject(
+					rs.getString("SCHOOL_CD"),
+					rs.getString("CD"),
+					rs.getString("NAME")
+				));
+			}
+
+			rs.close();
+			ps.close();
+			conn.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
 }

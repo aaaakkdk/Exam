@@ -87,6 +87,7 @@ public class SubjectCreateExecuteAction extends Action {
 		}
 
 		// 一覧へ
-		res.sendRedirect("SubjectList.action");
+		req.getRequestDispatcher("/scoremanager/main/subjectCreateDone.jsp")
+		.forward(req, res);
 	}
 }
