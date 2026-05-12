@@ -19,6 +19,7 @@ public class TestListSubjectExecuteAction
 			HttpServletResponse response)
 			throws Exception {
 
+		// パラメータ取得
 		String entYear =
 				request.getParameter(
 						"entYear");
@@ -31,6 +32,41 @@ public class TestListSubjectExecuteAction
 				request.getParameter(
 						"subjectCd");
 
+		// 値保持
+		request.setAttribute(
+				"entYear",
+				entYear);
+
+		request.setAttribute(
+				"classNum",
+				classNum);
+
+		request.setAttribute(
+				"subjectCd",
+				subjectCd);
+
+		// 未入力チェック
+		if(entYear == null
+				|| entYear.equals("")
+				|| classNum == null
+				|| classNum.equals("")
+				|| subjectCd == null
+				|| subjectCd.equals("")) {
+
+			request.setAttribute(
+					"error",
+					"入学年度とクラスと科目を選択してください");
+
+			request.getRequestDispatcher(
+					"/scoremanager/main/test_list.jsp")
+					.forward(
+							request,
+							response);
+
+			return;
+		}
+
+		// セッション
 		HttpSession session =
 				request.getSession();
 
@@ -38,11 +74,14 @@ public class TestListSubjectExecuteAction
 				(Teacher)session.getAttribute(
 						"user");
 
+		// DAO
 		TestDao dao =
 				new TestDao();
 
+		// 検索
 		List<Test> list =
 				dao.filter(
+
 						Integer.parseInt(
 								entYear),
 
@@ -56,13 +95,27 @@ public class TestListSubjectExecuteAction
 						.getCd()
 				);
 
+		// データなし
+		if(list == null
+				|| list.size() == 0) {
+
+			request.setAttribute(
+					"error",
+					"学生情報が存在しませんでした");
+
+			request.getRequestDispatcher(
+					"/scoremanager/main/test_list.jsp")
+					.forward(
+							request,
+							response);
+
+			return;
+		}
+
+		// 一覧表示
 		request.setAttribute(
 				"list",
 				list);
-
-		request.setAttribute(
-				"subjectCd",
-				subjectCd);
 
 		request.getRequestDispatcher(
 				"/scoremanager/main/test_list_subject.jsp")

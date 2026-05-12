@@ -210,6 +210,48 @@ td{
 				</c:if>>
 				2016
 			</option>
+			
+			<option value="2017"
+			<c:if test="${entYear == '2017'}">
+				selected
+			</c:if>>
+			2017
+		</option>
+
+		<option value="2018"
+			<c:if test="${entYear == '2018'}">
+				selected
+			</c:if>>
+			2018
+		</option>
+
+		<option value="2019"
+			<c:if test="${entYear == '2019'}">
+				selected
+			</c:if>>
+			2019
+		</option>
+
+		<option value="2020"
+			<c:if test="${entYear == '2020'}">
+				selected
+			</c:if>>
+			2020
+		</option>
+
+		<option value="2021"
+			<c:if test="${entYear == '2021'}">
+				selected
+			</c:if>>
+			2021
+		</option>
+
+		<option value="2022"
+			<c:if test="${entYear == '2022'}">
+				selected
+			</c:if>>
+			2022
+		</option>
 
 			<option value="2023"
 				<c:if test="${entYear == '2023'}">
@@ -302,7 +344,7 @@ td{
 				<c:if test="${subjectCd == 'JAV'}">
 					selected
 				</c:if>>
-				JAVA
+				Java
 			</option>
 
 			<option value="DBS"

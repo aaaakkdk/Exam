@@ -9,39 +9,69 @@
 
 <meta charset="UTF-8">
 
-<title>登録完了</title>
+<title>成績登録完了</title>
 
 <style>
 
 body{
 	font-family:sans-serif;
 	background:#f5f5f5;
-	padding:50px;
+	margin:0;
+	padding:0;
 }
 
-.box{
+.container{
+	width:700px;
+	margin:80px auto;
 	background:white;
-	padding:40px;
-	border-radius:8px;
-	width:500px;
-	margin:auto;
+	border-radius:12px;
+	padding:80px;
 	text-align:center;
 }
 
-h2{
-	font-size:32px;
-	margin-bottom:30px;
+.title{
+	font-size:60px;
+	font-weight:bold;
+	margin-bottom:50px;
 }
 
-a{
+.message{
+	font-size:28px;
+	margin-bottom:60px;
+}
+
+.button-area{
+	display:flex;
+	justify-content:center;
+	gap:30px;
+}
+
+.menu-btn{
 	display:inline-block;
-	margin-top:20px;
-	padding:12px 24px;
 	background:#666;
 	color:white;
 	text-decoration:none;
-	border-radius:5px;
-	font-size:18px;
+	font-size:28px;
+	padding:20px 40px;
+	border-radius:8px;
+}
+
+.menu-btn:hover{
+	background:#444;
+}
+
+.list-btn{
+	display:inline-block;
+	background:#888;
+	color:white;
+	text-decoration:none;
+	font-size:28px;
+	padding:20px 40px;
+	border-radius:8px;
+}
+
+.list-btn:hover{
+	background:#666;
 }
 
 </style>
@@ -50,28 +80,41 @@ a{
 
 <body>
 
-<div class="box">
+<div class="container">
 
-<h2>
+	<div class="title">
 
-	成績登録完了
+		成績登録完了
 
-</h2>
+	</div>
 
-<p>
+	<div class="message">
 
-	成績を登録しました。
+		成績を登録しました。
 
-</p>
+	</div>
 
-<a href="menu.jsp">
+	<div class="button-area">
 
-	メニューへ戻る
+		<!-- メニュー -->
+		<a href="menu.jsp"
+			class="menu-btn">
 
-</a>
+			メニューへ戻る
+
+		</a>
+
+		<!-- 成績参照 -->
+		<a href="TestList.action"
+			class="list-btn">
+
+			成績参照
+
+		</a>
+
+	</div>
 
 </div>
 
 </body>
-
 </html>

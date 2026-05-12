@@ -17,15 +17,114 @@
 <style>
 
 body{
+	margin:0;
 	font-family:sans-serif;
 	background:#f5f5f5;
-	padding:30px;
 }
 
-.title{
-	font-size:40px;
+.header{
+	background:#dfe8f3;
+	padding:20px 40px;
+	font-size:42px;
 	font-weight:bold;
-	margin-bottom:30px;
+}
+
+.top-right{
+	float:right;
+	font-size:16px;
+	margin-top:10px;
+}
+
+.main{
+	display:flex;
+	min-height:700px;
+}
+
+.sidebar{
+	width:220px;
+	background:white;
+	padding:30px 20px;
+	border-right:1px solid #ccc;
+}
+
+.sidebar a{
+	display:block;
+	margin-bottom:18px;
+	text-decoration:none;
+	color:#2b5dab;
+	font-size:18px;
+}
+
+.content{
+	flex:1;
+	padding:20px 40px;
+}
+
+.page-title{
+	font-size:38px;
+	font-weight:bold;
+	margin-bottom:20px;
+}
+
+.search-area{
+	background:white;
+	border:1px solid #ccc;
+	border-radius:8px;
+	padding:20px;
+	margin-bottom:25px;
+}
+
+.form-row{
+	display:flex;
+	align-items:flex-end;
+	gap:20px;
+	flex-wrap:wrap;
+}
+
+.form-group{
+	display:flex;
+	flex-direction:column;
+}
+
+label{
+	font-size:16px;
+	margin-bottom:5px;
+	font-weight:bold;
+}
+
+select{
+	width:180px;
+	height:40px;
+	font-size:16px;
+	border:1px solid #aaa;
+	border-radius:5px;
+	padding-left:10px;
+}
+
+input[type=text]{
+	width:220px;
+	height:38px;
+	font-size:16px;
+	border:1px solid #aaa;
+	border-radius:5px;
+	padding-left:10px;
+}
+
+.search-btn{
+	height:40px;
+	padding:0 20px;
+	background:#666;
+	color:white;
+	border:none;
+	border-radius:5px;
+	cursor:pointer;
+	font-size:16px;
+}
+
+.subject-title{
+	font-size:24px;
+	font-weight:bold;
+	margin-bottom:20px;
 }
 
 table{
@@ -35,14 +134,25 @@ table{
 }
 
 th{
-	background:#ddd;
-	padding:12px;
-	border:1px solid #999;
+	background:#e5e5e5;
+	padding:14px;
+	border-bottom:2px solid #bbb;
+	font-size:18px;
 }
 
 td{
-	padding:12px;
-	border:1px solid #999;
+	padding:14px;
+	border-bottom:1px solid #ccc;
+	font-size:18px;
+	text-align:center;
+}
+
+.footer{
+	background:#ddd;
+	text-align:center;
+	padding:20px;
+	font-size:14px;
+	color:#666;
 }
 
 </style>
@@ -51,52 +161,343 @@ td{
 
 <body>
 
-<div class="title">
+<!-- ヘッダー -->
+<div class="header">
 
-	成績一覧
+	得点管理システム
+
+	<div class="top-right">
+
+		大原 太郎様　
+		<a href="Logout.action">
+
+			ログアウト
+
+		</a>
+
+	</div>
 
 </div>
 
-<table>
+<div class="main">
 
-<tr>
+	<!-- サイドバー -->
+	<div class="sidebar">
 
-	<th>学生番号</th>
+		<a href="menu.jsp">
 
-	<th>氏名</th>
+			メニュー
 
-	<th>点数</th>
+		</a>
 
-</tr>
+		<br>
 
-<c:forEach var="t"
-	items="${list}">
+		<a href="StudentCreate.action">
 
-<tr>
+			学生管理
 
-	<td>
+		</a>
 
-		${t.student.no}
+		<a href="TestRegist.action">
 
-	</td>
+			成績登録
 
-	<td>
+		</a>
 
-		${t.student.name}
+		<a href="TestList.action">
 
-	</td>
+			成績参照
 
-	<td>
+		</a>
 
-		${t.point}
+		<a href="#">
 
-	</td>
+			科目管理
 
-</tr>
+		</a>
 
-</c:forEach>
+	</div>
 
-</table>
+	<!-- メイン -->
+	<div class="content">
+
+		<div class="page-title">
+
+			成績一覧（科目）
+
+		</div>
+
+		<!-- 検索 -->
+		<div class="search-area">
+
+			<form action="TestListSubjectExecute.action"
+				method="post">
+
+				<div class="form-row">
+
+					<div class="form-group">
+
+						<label>
+
+							入学年度
+
+						</label>
+
+						<select name="entYear">
+						
+							<option value="2016">
+								2016
+							</option>
+							
+							<option value="2017">
+								2017
+							</option>
+							
+							<option value="2018">
+								2018
+							</option>
+							
+							<option value="2019">
+								2019
+							</option>
+							
+							<option value="2020">
+								2020
+							</option>
+							
+							<option value="2021">
+								2021
+							</option>
+
+							<option value="2022">
+								2022
+							</option>
+
+							<option value="2023">
+								2023
+							</option>
+
+							<option value="2024">
+								2024
+							</option>
+
+							<option value="2025">
+								2025
+							</option>
+
+						</select>
+
+					</div>
+
+					<div class="form-group">
+
+						<label>
+
+							クラス
+
+						</label>
+
+						<select name="classNum">
+
+							<option value="101">
+								101
+							</option>
+
+							<option value="102">
+								102
+							</option>
+
+							<option value="201">
+								201
+							</option>
+
+							<option value="202">
+								202
+							</option>
+
+						</select>
+
+					</div>
+
+					<div class="form-group">
+
+						<label>
+
+							科目
+
+						</label>
+
+						<select name="subjectCd">
+
+							<option value="JAV">
+								Java
+							</option>
+
+							<option value="DBS">
+								DB
+							</option>
+
+							<option value="PYT">
+								Python
+							</option>
+
+						</select>
+
+					</div>
+
+					<button type="submit"
+						class="search-btn">
+
+						検索
+
+					</button>
+
+				</div>
+
+			</form>
+
+			<hr>
+
+			<form action="#"
+				method="post">
+
+				<div class="form-row">
+
+					<div class="form-group">
+
+						<label>
+
+							学生番号
+
+						</label>
+
+						<input type="text"
+							name="studentNo"
+							placeholder="学生番号を入力してください">
+
+					</div>
+
+					<button type="submit"
+						class="search-btn">
+
+						検索
+
+					</button>
+
+				</div>
+
+			</form>
+
+		</div>
+
+		<!-- 科目名 -->
+		<div class="subject-title">
+
+			科目：${subjectCd}
+
+		</div>
+
+		<!-- 一覧 -->
+		<table>
+
+			<tr>
+
+				<th>
+
+					入学年度
+
+				</th>
+
+				<th>
+
+					クラス
+
+				</th>
+
+				<th>
+
+					学生番号
+
+				</th>
+
+				<th>
+
+					氏名
+
+				</th>
+
+				<th>
+
+					1回
+
+				</th>
+
+				<th>
+
+					2回
+
+				</th>
+
+			</tr>
+
+			<c:forEach var="t"
+				items="${list}">
+
+			<tr>
+
+				<td>
+
+					${t.student.entYear}
+
+				</td>
+
+				<td>
+
+					${t.student.classNum}
+
+				</td>
+
+				<td>
+
+					${t.student.no}
+
+				</td>
+
+				<td>
+
+					${t.student.name}
+
+				</td>
+
+				<td>
+
+					${t.point}
+
+				</td>
+
+				<td>
+
+					-
+
+				</td>
+
+			</tr>
+
+			</c:forEach>
+
+		</table>
+
+	</div>
+
+</div>
+
+<!-- フッター -->
+<div class="footer">
+
+	© 2023 TIC<br>
+	大原学園
+
+</div>
 
 </body>
 </html>
