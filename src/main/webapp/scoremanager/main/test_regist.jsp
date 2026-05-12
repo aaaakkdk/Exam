@@ -94,9 +94,9 @@ select{
 
 .error{
 	color:red;
-	font-size:18px;
+	font-size:16px;
 	font-weight:bold;
-	margin-bottom:20px;
+	margin-top:5px;
 }
 
 .subject-title{
@@ -122,6 +122,7 @@ td{
 	border-bottom:1px solid #ddd;
 	padding:15px;
 	font-size:20px;
+	vertical-align:top;
 }
 
 .score-input{
@@ -170,7 +171,7 @@ td{
 
 </div>
 
-<!-- エラーメッセージ -->
+<!-- エラー -->
 <c:if test="${not empty error}">
 
 	<div class="error">
@@ -200,33 +201,35 @@ td{
 		<select name="entYear">
 
 			<option value="">
-
 				---------
-
 			</option>
 
-			<option value="2016">
-
+			<option value="2016"
+				<c:if test="${entYear == '2016'}">
+					selected
+				</c:if>>
 				2016
-
 			</option>
 
-			<option value="2023">
-
+			<option value="2023"
+				<c:if test="${entYear == '2023'}">
+					selected
+				</c:if>>
 				2023
-
 			</option>
 
-			<option value="2024">
-
+			<option value="2024"
+				<c:if test="${entYear == '2024'}">
+					selected
+				</c:if>>
 				2024
-
 			</option>
 
-			<option value="2025">
-
+			<option value="2025"
+				<c:if test="${entYear == '2025'}">
+					selected
+				</c:if>>
 				2025
-
 			</option>
 
 		</select>
@@ -245,33 +248,35 @@ td{
 		<select name="classNum">
 
 			<option value="">
-
 				---------
-
 			</option>
 
-			<option value="101">
-
+			<option value="101"
+				<c:if test="${classNum == '101'}">
+					selected
+				</c:if>>
 				101
-
 			</option>
 
-			<option value="102">
-
+			<option value="102"
+				<c:if test="${classNum == '102'}">
+					selected
+				</c:if>>
 				102
-
 			</option>
 
-			<option value="201">
-
+			<option value="201"
+				<c:if test="${classNum == '201'}">
+					selected
+				</c:if>>
 				201
-
 			</option>
 
-			<option value="202">
-
+			<option value="202"
+				<c:if test="${classNum == '202'}">
+					selected
+				</c:if>>
 				202
-
 			</option>
 
 		</select>
@@ -290,27 +295,28 @@ td{
 		<select name="subjectCd">
 
 			<option value="">
-
 				---------
-
 			</option>
 
-			<option value="JAVA">
-
+			<option value="JAV"
+				<c:if test="${subjectCd == 'JAV'}">
+					selected
+				</c:if>>
 				JAVA
-
 			</option>
 
-			<option value="DB">
-
+			<option value="DBS"
+				<c:if test="${subjectCd == 'DBS'}">
+					selected
+				</c:if>>
 				DB
-
 			</option>
 
-			<option value="Python">
-
+			<option value="PYT"
+				<c:if test="${subjectCd == 'PYT'}">
+					selected
+				</c:if>>
 				Python
-
 			</option>
 
 		</select>
@@ -329,27 +335,28 @@ td{
 		<select name="count">
 
 			<option value="">
-
 				---------
-
 			</option>
 
-			<option value="1">
-
+			<option value="1"
+				<c:if test="${count == 1}">
+					selected
+				</c:if>>
 				1
-
 			</option>
 
-			<option value="2">
-
+			<option value="2"
+				<c:if test="${count == 2}">
+					selected
+				</c:if>>
 				2
-
 			</option>
 
-			<option value="3">
-
+			<option value="3"
+				<c:if test="${count == 3}">
+					selected
+				</c:if>>
 				3
-
 			</option>
 
 		</select>
@@ -380,7 +387,7 @@ td{
 
 </div>
 
-<!-- 学生一覧 -->
+<!-- 成績一覧 -->
 <c:if test="${not empty scoreList}">
 
 <div class="subject-title">
@@ -416,29 +423,29 @@ td{
 
 		<td>
 
-			${s.entYear}
+			${s.student.entYear}
 
 		</td>
 
 		<td>
 
-			${s.classNum}
+			${s.student.classNum}
 
 		</td>
 
 		<td>
 
-			${s.no}
+			${s.student.no}
 
 			<input type="hidden"
 				name="studentNo"
-				value="${s.no}">
+				value="${s.student.no}">
 
 		</td>
 
 		<td>
 
-			${s.name}
+			${s.student.name}
 
 		</td>
 
@@ -446,7 +453,18 @@ td{
 
 			<input type="text"
 				name="point"
+				value="${s.point}"
 				class="score-input">
+
+			<c:if test="${errors[s.student.no] != null}">
+
+				<div class="error">
+
+					${errors[s.student.no]}
+
+				</div>
+
+			</c:if>
 
 		</td>
 
@@ -455,6 +473,24 @@ td{
 	</c:forEach>
 
 </table>
+
+<!-- hidden -->
+
+<input type="hidden"
+	name="subjectCd"
+	value="${subjectCd}">
+
+<input type="hidden"
+	name="count"
+	value="${count}">
+
+<input type="hidden"
+	name="classNum"
+	value="${classNum}">
+
+<input type="hidden"
+	name="entYear"
+	value="${entYear}">
 
 <button type="submit"
 	class="register-btn">

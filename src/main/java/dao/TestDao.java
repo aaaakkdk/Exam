@@ -2,42 +2,45 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import bean.Student;
+import bean.Test;
 
 public class TestDao extends Dao {
 
+	/**
+	 * 成績登録
+	 */
 	public boolean save(
-
 			String studentNo,
 			String subjectCd,
 			int count,
 			int point,
+			String classNum,
 			String schoolCd)
-
 			throws Exception {
 
-		Connection connection =
-				getConnection();
+		Connection connection = getConnection();
 
-		PreparedStatement statement =
-				null;
+		PreparedStatement statement = null;
 
 		int result = 0;
 
 		try {
 
+			// 既存データ確認
+			String checkSql =
+					"select * from test "
+					+ "where student_no=? "
+					+ "and subject_cd=? "
+					+ "and no=?";
+
 			statement =
 					connection.prepareStatement(
-
-							"insert into test "
-							+ "(student_no,"
-							+ "subject_cd,"
-							+ "no,"
-							+ "point,"
-							+ "school_cd)"
-							+ " values"
-							+ "(?,?,?,?,?)"
-
-					);
+							checkSql);
 
 			statement.setString(
 					1,
@@ -51,16 +54,92 @@ public class TestDao extends Dao {
 					3,
 					count);
 
-			statement.setInt(
-					4,
-					point);
+			ResultSet rs =
+					statement.executeQuery();
 
-			statement.setString(
-					5,
-					schoolCd);
+			// UPDATE
+			if(rs.next()) {
 
-			result =
-					statement.executeUpdate();
+				statement.close();
+
+				String updateSql =
+						"update test "
+						+ "set point=? "
+						+ "where student_no=? "
+						+ "and subject_cd=? "
+						+ "and no=?";
+
+				statement =
+						connection.prepareStatement(
+								updateSql);
+
+				statement.setInt(
+						1,
+						point);
+
+				statement.setString(
+						2,
+						studentNo);
+
+				statement.setString(
+						3,
+						subjectCd);
+
+				statement.setInt(
+						4,
+						count);
+
+				result =
+						statement.executeUpdate();
+			}
+
+			// INSERT
+			else {
+
+				statement.close();
+
+				String insertSql =
+						"insert into test "
+						+ "(student_no,"
+						+ "subject_cd,"
+						+ "no,"
+						+ "point,"
+						+ "class_num,"
+						+ "school_cd)"
+						+ " values "
+						+ "(?,?,?,?,?,?)";
+
+				statement =
+						connection.prepareStatement(
+								insertSql);
+
+				statement.setString(
+						1,
+						studentNo);
+
+				statement.setString(
+						2,
+						subjectCd);
+
+				statement.setInt(
+						3,
+						count);
+
+				statement.setInt(
+						4,
+						point);
+
+				statement.setString(
+						5,
+						classNum);
+
+				statement.setString(
+						6,
+						schoolCd);
+
+				result =
+						statement.executeUpdate();
+			}
 
 		} finally {
 
@@ -74,5 +153,133 @@ public class TestDao extends Dao {
 		}
 
 		return result > 0;
+	}
+
+	/**
+	 * 成績検索
+	 */
+	public List<Test> filter(
+			int entYear,
+			String classNum,
+			String subjectCd,
+			int count,
+			String schoolCd)
+			throws Exception {
+
+		List<Test> list =
+				new ArrayList<>();
+
+		Connection connection =
+				getConnection();
+
+		PreparedStatement statement =
+				null;
+
+		ResultSet rs =
+				null;
+
+		try {
+
+			String sql =
+					"select "
+					+ "s.no,"
+					+ "s.name,"
+					+ "s.ent_year,"
+					+ "s.class_num,"
+					+ "t.point "
+					+ "from student s "
+					+ "left join test t "
+					+ "on s.no=t.student_no "
+					+ "and t.subject_cd=? "
+					+ "and t.no=? "
+					+ "where s.ent_year=? "
+					+ "and s.class_num=? "
+					+ "and s.school_cd=? "
+					+ "order by s.no";
+
+			statement =
+					connection.prepareStatement(
+							sql);
+
+			statement.setString(
+					1,
+					subjectCd);
+
+			statement.setInt(
+					2,
+					count);
+
+			statement.setInt(
+					3,
+					entYear);
+
+			statement.setString(
+					4,
+					classNum);
+
+			statement.setString(
+					5,
+					schoolCd);
+
+			rs =
+					statement.executeQuery();
+
+			while(rs.next()) {
+
+				Test test =
+						new Test();
+
+				Student student =
+						new Student();
+
+				student.setNo(
+						rs.getString("no"));
+
+				student.setName(
+						rs.getString("name"));
+
+				student.setEntYear(
+						rs.getInt("ent_year"));
+
+				student.setClassNum(
+						rs.getString("class_num"));
+
+				test.setStudent(
+						student);
+
+				// point
+				int p =
+						rs.getInt("point");
+
+				if(rs.wasNull()) {
+
+					test.setPoint(
+							0);
+
+				} else {
+
+					test.setPoint(
+							p);
+				}
+
+				list.add(test);
+			}
+
+		} finally {
+
+			if(rs != null) {
+				rs.close();
+			}
+
+			if(statement != null) {
+				statement.close();
+			}
+
+			if(connection != null) {
+				connection.close();
+			}
+		}
+
+		return list;
 	}
 }
