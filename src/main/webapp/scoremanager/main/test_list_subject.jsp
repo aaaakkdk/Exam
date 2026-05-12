@@ -101,15 +101,6 @@ select{
 	padding-left:10px;
 }
 
-input[type=text]{
-	width:220px;
-	height:38px;
-	font-size:16px;
-	border:1px solid #aaa;
-	border-radius:5px;
-	padding-left:10px;
-}
-
 .search-btn{
 	height:40px;
 	padding:0 20px;
@@ -119,6 +110,13 @@ input[type=text]{
 	border-radius:5px;
 	cursor:pointer;
 	font-size:16px;
+}
+
+.error{
+	color:red;
+	font-size:18px;
+	font-weight:bold;
+	margin-bottom:20px;
 }
 
 .subject-title{
@@ -227,6 +225,17 @@ td{
 
 		</div>
 
+		<!-- エラー -->
+		<c:if test="${not empty error}">
+
+			<div class="error">
+
+				${error}
+
+			</div>
+
+		</c:if>
+
 		<!-- 検索 -->
 		<div class="search-area">
 
@@ -235,6 +244,7 @@ td{
 
 				<div class="form-row">
 
+					<!-- 入学年度 -->
 					<div class="form-group">
 
 						<label>
@@ -244,51 +254,27 @@ td{
 						</label>
 
 						<select name="entYear">
-						
-							<option value="2016">
-								2016
-							</option>
-							
-							<option value="2017">
-								2017
-							</option>
-							
-							<option value="2018">
-								2018
-							</option>
-							
-							<option value="2019">
-								2019
-							</option>
-							
-							<option value="2020">
-								2020
-							</option>
-							
-							<option value="2021">
-								2021
+
+							<option value="">
+								--------
 							</option>
 
-							<option value="2022">
-								2022
-							</option>
-
-							<option value="2023">
-								2023
-							</option>
-
-							<option value="2024">
-								2024
-							</option>
-
-							<option value="2025">
-								2025
-							</option>
+							<option value="2016">2016</option>
+							<option value="2017">2017</option>
+							<option value="2018">2018</option>
+							<option value="2019">2019</option>
+							<option value="2020">2020</option>
+							<option value="2021">2021</option>
+							<option value="2022">2022</option>
+							<option value="2023">2023</option>
+							<option value="2024">2024</option>
+							<option value="2025">2025</option>
 
 						</select>
 
 					</div>
 
+					<!-- クラス -->
 					<div class="form-group">
 
 						<label>
@@ -299,26 +285,20 @@ td{
 
 						<select name="classNum">
 
-							<option value="101">
-								101
+							<option value="">
+								--------
 							</option>
 
-							<option value="102">
-								102
-							</option>
-
-							<option value="201">
-								201
-							</option>
-
-							<option value="202">
-								202
-							</option>
+							<option value="101">101</option>
+							<option value="102">102</option>
+							<option value="201">201</option>
+							<option value="202">202</option>
 
 						</select>
 
 					</div>
 
+					<!-- 科目 -->
 					<div class="form-group">
 
 						<label>
@@ -329,51 +309,15 @@ td{
 
 						<select name="subjectCd">
 
-							<option value="JAV">
-								Java
+							<option value="">
+								--------
 							</option>
 
-							<option value="DBS">
-								DB
-							</option>
-
-							<option value="PYT">
-								Python
-							</option>
+							<option value="JAV">Java</option>
+							<option value="DBS">DB</option>
+							<option value="PYT">Python</option>
 
 						</select>
-
-					</div>
-
-					<button type="submit"
-						class="search-btn">
-
-						検索
-
-					</button>
-
-				</div>
-
-			</form>
-
-			<hr>
-
-			<form action="#"
-				method="post">
-
-				<div class="form-row">
-
-					<div class="form-group">
-
-						<label>
-
-							学生番号
-
-						</label>
-
-						<input type="text"
-							name="studentNo"
-							placeholder="学生番号を入力してください">
 
 					</div>
 
@@ -391,13 +335,19 @@ td{
 		</div>
 
 		<!-- 科目名 -->
-		<div class="subject-title">
+		<c:if test="${not empty subjectCd}">
 
-			科目：${subjectCd}
+			<div class="subject-title">
 
-		</div>
+				科目：${subjectCd}
+
+			</div>
+
+		</c:if>
 
 		<!-- 一覧 -->
+		<c:if test="${not empty list}">
+
 		<table>
 
 			<tr>
@@ -469,15 +419,17 @@ td{
 
 				</td>
 
+				<!-- 1回 -->
 				<td>
 
 					${t.point}
 
 				</td>
 
+				<!-- 2回 -->
 				<td>
 
-					-
+					${t.point2}
 
 				</td>
 
@@ -486,6 +438,8 @@ td{
 			</c:forEach>
 
 		</table>
+
+		</c:if>
 
 	</div>
 

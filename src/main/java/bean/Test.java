@@ -5,7 +5,21 @@ public class Test {
     private String year;
     private String classNum;
     private String subjectId;
+
+    /**
+     * 1回目点数
+     */
     private int point;
+
+    /**
+     * 2回目点数
+     */
+    private Integer point2;
+
+    /**
+     * 回数
+     */
+    private int no;
 
     /**
      * 学生
@@ -46,6 +60,10 @@ public class Test {
     	this.subjectId = subjectId;
     }
 
+    // ----------------
+    // point
+    // ----------------
+
     public int getPoint() {
     	return point;
     }
@@ -54,6 +72,34 @@ public class Test {
     		int point) {
 
     	this.point = point;
+    }
+
+    // ----------------
+    // point2
+    // ----------------
+
+    public Integer getPoint2() {
+    	return point2;
+    }
+
+    public void setPoint2(
+    		Integer point2) {
+
+    	this.point2 = point2;
+    }
+
+    // ----------------
+    // no
+    // ----------------
+
+    public int getNo() {
+    	return no;
+    }
+
+    public void setNo(
+    		int no) {
+
+    	this.no = no;
     }
 
     // ----------------
