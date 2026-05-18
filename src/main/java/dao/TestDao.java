@@ -434,4 +434,146 @@ public class TestDao extends Dao {
 
 		return list;
 	}
+
+	/**
+	 * 学生別成績参照
+	 */
+	public List<Test> filterStudent(
+			String studentNo,
+			String schoolCd)
+			throws Exception {
+
+		List<Test> list =
+				new ArrayList<>();
+
+		Connection connection =
+				getConnection();
+
+		PreparedStatement statement =
+				null;
+
+		ResultSet rs =
+				null;
+
+		try {
+
+			String sql =
+					"select "
+					+ "t.subject_cd,"
+					+ "t.no,"
+					+ "t.point,"
+					+ "s.no as student_no,"
+					+ "s.name as student_name,"
+					+ "s.ent_year,"
+					+ "s.class_num "
+
+					+ "from test t "
+
+					+ "inner join student s "
+					+ "on t.student_no=s.no "
+
+					+ "where s.no=? "
+
+					+ "order by "
+					+ "t.subject_cd,"
+					+ "t.no";
+
+			statement =
+					connection.prepareStatement(
+							sql);
+
+			statement.setString(
+					1,
+					studentNo);
+
+			rs =
+					statement.executeQuery();
+
+			while(rs.next()) {
+
+				Test test =
+						new Test();
+
+				Student student =
+						new Student();
+
+				student.setNo(
+						rs.getString(
+								"student_no"));
+
+				student.setName(
+						rs.getString(
+								"student_name"));
+
+				student.setEntYear(
+						rs.getInt(
+								"ent_year"));
+
+				student.setClassNum(
+						rs.getString(
+								"class_num"));
+
+				test.setStudent(
+						student);
+
+				// 科目コード
+				String subjectCd =
+						rs.getString(
+								"subject_cd");
+
+				test.setSubjectId(
+						subjectCd);
+
+				// 科目名
+				if(subjectCd.equals(
+						"JAV")) {
+
+					test.setSubjectName(
+							"Java");
+
+				} else if(subjectCd.equals(
+						"DBS")) {
+
+					test.setSubjectName(
+							"DB");
+
+				} else if(subjectCd.equals(
+						"PYT")) {
+
+					test.setSubjectName(
+							"Python");
+				}
+
+				// 回数
+				test.setNo(
+						rs.getInt(
+								"no"));
+
+				// 点数
+				test.setPoint(
+						rs.getInt(
+								"point"));
+
+				list.add(
+						test);
+			}
+
+		} finally {
+
+			if(rs != null) {
+				rs.close();
+			}
+
+			if(statement != null) {
+				statement.close();
+			}
+
+			if(connection != null) {
+				connection.close();
+			}
+		}
+
+		return list;
+	}
 }
+

@@ -7,6 +7,11 @@ public class Test {
     private String subjectId;
 
     /**
+     * 科目名
+     */
+    private String subjectName;
+
+    /**
      * 1回目点数
      */
     private int point;
@@ -27,7 +32,7 @@ public class Test {
     private Student student;
 
     // ----------------
-    // getter setter
+    // year
     // ----------------
 
     public String getYear() {
@@ -40,6 +45,10 @@ public class Test {
     	this.year = year;
     }
 
+    // ----------------
+    // classNum
+    // ----------------
+
     public String getClassNum() {
     	return classNum;
     }
@@ -50,6 +59,10 @@ public class Test {
     	this.classNum = classNum;
     }
 
+    // ----------------
+    // subjectId
+    // ----------------
+
     public String getSubjectId() {
     	return subjectId;
     }
@@ -58,6 +71,20 @@ public class Test {
     		String subjectId) {
 
     	this.subjectId = subjectId;
+    }
+
+    // ----------------
+    // subjectName
+    // ----------------
+
+    public String getSubjectName() {
+    	return subjectName;
+    }
+
+    public void setSubjectName(
+    		String subjectName) {
+
+    	this.subjectName = subjectName;
     }
 
     // ----------------
@@ -116,3 +143,4 @@ public class Test {
     	this.student = student;
     }
 }
+
