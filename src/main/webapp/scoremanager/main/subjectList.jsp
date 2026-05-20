@@ -69,6 +69,11 @@
 												変更
 											</a>
 										</td>
+										<td>
+											<a href="SubjectDelete.action?schoolCd=${subject.schoolCd}&cd=${subject.cd}">
+												削除
+											</a>
+										</td>
 
 									</tr>
 
